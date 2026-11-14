@@ -1,0 +1,91 @@
+/* Fire Sat · Tema espacial.
+   Se carga DESPUÉS de tierra.css y solo sobrescribe colores del fondo y del texto que va
+   directamente sobre el cielo. Los paneles claros (país, datos guardados, créditos) no cambian.
+   Para volver al cielo azul basta con quitar este archivo y espacio.js del index.html. */
+
+:root {
+  color-scheme: dark;
+  --cielo-alto: #04060f;
+  --cielo-medio: #050a1a;
+  --cielo-bajo: #02030a;
+  --texto-cielo: #e6edf7;
+  --texto-cielo-2: #9fb0c8;
+  --vidrio: #0b1630b3;
+  --vidrio-borde: #8fb4ff2e;
+}
+
+body { background: #02030a; }
+
+/* El canvas de estrellas (lo crea espacio.js) queda detrás de la Tierra */
+#espacio { position: absolute; inset: 0; z-index: 0; display: block; width: 100%; height: 100%; pointer-events: none; }
+
+/* La portada también es espacio: solo un leve resplandor azul de atmósfera sobre el horizonte */
+#escena::before {
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(120% 60% at 50% 100%, #2f6fd133 0%, #1b3c8a14 45%, transparent 70%);
+}
+
+/* Título de portada: blanco con brillo suave, se lee mejor sobre negro */
+.portada h1 {
+  text-shadow: 0 0 24px #7fb2ff40, 0 0 64px #ff8a3d1f, 0 2px 4px #000c;
+}
+#escena[data-view="intro"] .marca, .portada-contenido {
+  text-shadow: 0 1px 2px #000, 0 0 8px #000a;
+}
+.presentacion { color: var(--texto-cielo); }
+
+/* Botón "Explorar la Tierra" con brillo de brasa */
+.explorar {
+  background: #0b1630cc;
+  border-color: #ffffff59;
+  box-shadow: inset 0 0 0 3px #0b1630, inset 0 0 0 4px #ffffff26, 0 0 24px #ff7a2a33, 0 6px 20px #0008;
+  backdrop-filter: blur(8px);
+}
+@media (hover: hover) {
+  .explorar:not(:disabled):hover { background: #13224a; border-color: #f3aa63; box-shadow: inset 0 0 0 3px #13224a, inset 0 0 0 4px #f3aa6355, 0 0 32px #ff7a2a66, 0 6px 20px #0008; }
+}
+
+/* Textos que van sobre el cielo: de tinta oscura a claro */
+#escena[data-view="globe"] .instruccion { color: var(--texto-cielo-2); }
+.buscador-paises { color: var(--texto-cielo); }
+.con-datos { color: var(--texto-cielo-2); }
+.con-datos button { color: var(--texto-cielo); text-decoration-color: #ffffff59; }
+@media (hover: hover) { .con-datos button:hover { color: #fff; text-decoration-color: #f3aa63; } }
+.carga { color: var(--texto-cielo); }
+.orbita { border-color: #ffffff26; border-top-color: #9cc4ff; box-shadow: 0 0 18px #4d8dff40; }
+.sin-js { color: var(--texto-cielo); }
+.pieza-leyenda { color: var(--texto-cielo); text-shadow: 0 1px 3px #000c; }
+
+/* Buscador de países como vidrio esmerilado */
+.campo-pais {
+  background: var(--vidrio);
+  border: 1px solid var(--vidrio-borde);
+  color: var(--texto-cielo);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 8px 28px #0006;
+}
+.campo-pais:focus-within { outline-color: #9cc4ff; border-color: #9cc4ff66; }
+.campo-pais input::placeholder { color: var(--texto-cielo-2); }
+.campo-pais button { color: var(--texto-cielo-2); }
+
+/* Botones redondos (pausa, créditos) */
+.boton-icono {
+  background: var(--vidrio);
+  border: 1px solid var(--vidrio-borde);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+@media (hover: hover) {
+  .boton-icono:not(:disabled):hover { background: #13224a; box-shadow: 0 0 16px #4d8dff4d; }
+}
+
+/* Enlaces de la cabecera con subrayado cálido al pasar */
+@media (hover: hover) {
+  .enlace-claro:hover { text-decoration-color: #f3aa63; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbita { box-shadow: none; }
+}
